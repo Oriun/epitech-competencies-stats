@@ -7,7 +7,7 @@ import crawlPage from "./parser.service";
 import { testData } from "./test-data";
 
 export async function getFromStorage(): Promise<GandalfData> {
-  const data = await chrome.storage.local.get("gandalf2");
+  const data = await chrome.storage.local.get("gandalf");
   console.log(data);
   if (data.gandalf) {
     return data.gandalf;
