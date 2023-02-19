@@ -1,12 +1,13 @@
 import React from "react";
 import { Navigator } from "react-router-dom";
+import useStorage from "./useStorage";
 
 export type Path =
   | string
   | { pathname: string; search?: string; hash?: string };
 
 export default function useRouter(basename: string) {
-  const [location, setLocation] = React.useState<Path>(basename);
+  const [location, setLocation] = useStorage<Path>("router", basename);
   const navigator: Navigator = {
     push: (path: string) => {
       setLocation(path);
@@ -28,5 +29,5 @@ export default function useRouter(basename: string) {
   };
   console.log("location", location);
   //@ts-ignore
-  return [location.pathname ?? location, navigator] as const;
+  return [location?.pathname ?? location, navigator] as const;
 }

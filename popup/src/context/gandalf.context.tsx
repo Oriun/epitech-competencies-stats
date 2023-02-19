@@ -1,4 +1,3 @@
-// Basic react context in typescript
 import React from "react";
 import getData from "../services/gandalf.service";
 import { GandalfData } from "../types/gandalf.types";
@@ -14,13 +13,15 @@ export const GandalfProvider: React.FC<{ children: React.ReactNode }> = ({
   React.useEffect(() => {
     getData()
       .then((data) => {
+        console.log("getData ok");
         setData(data);
       })
-      .catch(() => {
-        console.log("error");
+      .catch((err) => {
+        console.log("getData error", err);
         navigate("/error");
       });
   }, []);
+  console.log("data in provider", data);
   return (
     <GandalfContext.Provider value={data}>{children}</GandalfContext.Provider>
   );

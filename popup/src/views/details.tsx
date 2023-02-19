@@ -26,38 +26,7 @@ import {
   isSuccess,
 } from "../services/gandalf.service";
 import ArrowNarrowLeftIcon from "../assets/arrow-narrow-left-icon";
-
-interface Issues {
-  issue: string;
-  topic: string;
-}
-
-const issues: Issues[] = [
-  {
-    issue: "Issue #249",
-    topic: "Input bar",
-  },
-  {
-    issue: "Issue #142",
-    topic: "Custom colors",
-  },
-  {
-    issue: "Issue #136",
-    topic: "Button loading state",
-  },
-  {
-    issue: "Issue #129",
-    topic: "minValue for Charts",
-  },
-  {
-    issue: "Issue #128",
-    topic: "Dark mode support",
-  },
-  {
-    issue: "Issue #124",
-    topic: "className props",
-  },
-];
+import Header from "../component/header";
 
 const Details: React.FC = () => {
   const navigate = useNavigate();
@@ -73,6 +42,7 @@ const Details: React.FC = () => {
   );
   if (!data.length) return null;
   if (data.length && !competence) {
+    console.error("Competence not found");
     navigate("/error");
     return null;
   }
@@ -86,13 +56,7 @@ const Details: React.FC = () => {
     : "non évaluée";
   return (
     <>
-      <Card maxWidth="max-w-xl" shadow>
-        <Flex justifyContent="justify-start">
-          <ArrowNarrowLeftIcon onClick={() => navigate("/competencies")} />
-          &nbsp;&nbsp;
-          <Title truncate>Dexter - Compétence</Title>
-        </Flex>
-      </Card>
+      <Header title="Compétence" backUrl="/competencies" />
       <Card maxWidth="max-w-xl" marginTop="mt-4">
         <Text>Compétence {code}</Text>
         <ColGrid gapY="gap-y-2">
@@ -103,9 +67,8 @@ const Details: React.FC = () => {
           text={
             txt == "non évaluée"
               ? `Cette compétence n'a pas encore été évaluée`
-              : `Vous avez ${txt} la compétence avec le status ${competence.status}`
+              : `Vous avez ${txt} la compétence avec le status "${competence.status}"`
           }
-          // icon={TrendingUpIcon}
           color={color}
           marginTop="mt-6"
         />
@@ -132,9 +95,13 @@ const Details: React.FC = () => {
           </Block>
         </Flex>
         <Flex marginTop="mt-6">
-          <Text>
-            <Bold>Projet</Bold>
-          </Text>
+          <Flex justifyContent="justify-start">
+            <Text>
+              <Bold>Projet</Bold>
+            </Text>
+            &nbsp;&nbsp;
+            <Badge text={totalExpectations + ""} color="slate" />
+          </Flex>
           <Text>
             <Bold>Résultat</Bold>
           </Text>

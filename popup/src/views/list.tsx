@@ -27,16 +27,23 @@ import {
 } from "../services/gandalf.service";
 import { GandalfCompentency } from "../types/gandalf.types";
 import { useNavigate } from "react-router-dom";
+import useStorage from "../hooks/useStorage";
+import Header from "../component/header";
 
 const List: React.FC = () => {
   const navigate = useNavigate();
   const data = React.useContext(GandalfContext);
   const categories = React.useMemo(() => getSubcategories(data), [data]);
   const competencies = React.useMemo(() => getCompetencies(data), [data]);
-  const [selectedCategories, setSelectedCategories] = React.useState<string[]>(
+  const [selectedCategories, setSelectedCategories] = useStorage<string[]>(
+    "selectedCategories",
     []
   );
-  const [selectedMarks, setSelectedMarks] = React.useState<string[]>([]);
+  const [selectedMarks, setSelectedMarks] = useStorage<string[]>(
+    "selectedMarks",
+    []
+  );
+  if (!selectedMarks || !selectedCategories) return null;
 
   const filterByCategory = (category: GandalfCompentency) =>
     selectedCategories.some((selected) => category.code.startsWith(selected)) ||
@@ -60,19 +67,14 @@ const List: React.FC = () => {
     navigate(`/details/${category.code}`);
   return (
     <>
-      <Card maxWidth="max-w-xl" shadow>
-        <Flex justifyContent="justify-start">
-          <ArrowNarrowLeftIcon onClick={() => navigate("/")} />
-          &nbsp;&nbsp;
-          <Title truncate>Dexter - Mes Compétences</Title>
-        </Flex>
-      </Card>
+      <Header title="Dexter - Mes Compétences" backUrl="/" />
       <Card shadow marginTop="mt-4">
         <ColGrid numCols={1} gapY="gap-y-2">
           <ColGrid numCols={1} gapY="gap-y-1">
             <Bold>Filtrer par catégories</Bold>
             <MultiSelectBox
-              handleSelect={(value) => setSelectedCategories(value)}
+              value={selectedCategories}
+              onValueChange={(value: string[]) => setSelectedCategories(value)}
               placeholder="Toutes les catégories"
               maxWidth="max-w-md"
             >
@@ -88,7 +90,8 @@ const List: React.FC = () => {
           <ColGrid numCols={1} gapY="gap-y-1">
             <Bold>Filtrer par status</Bold>
             <MultiSelectBox
-              handleSelect={(value) => setSelectedMarks(value)}
+              value={selectedMarks}
+              onValueChange={(value: string[]) => setSelectedMarks(value)}
               placeholder="Tous les status"
               maxWidth="max-w-md"
             >

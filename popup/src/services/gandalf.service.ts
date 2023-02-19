@@ -8,17 +8,13 @@ import { testData } from "./test-data";
 
 export async function getFromStorage(): Promise<GandalfData> {
   const data = await chrome.storage.local.get("gandalf");
-  console.log(data);
-  if (data.gandalf) {
-    return data.gandalf;
-  }
-  return [];
+  return data.gandalf || [];
 }
 export async function saveToStorage(data: GandalfData) {
-  console.log("Saving to storage");
   await chrome.storage.local.set({ gandalf: data });
-  console.log("Saved to storage");
-  console.log("in storage", await getFromStorage());
+}
+export async function clearStorage() {
+  await chrome.storage.local.clear();
 }
 
 export default async function getData(): Promise<GandalfData> {

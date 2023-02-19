@@ -1,28 +1,20 @@
-import {
-  Card,
-  Text,
-  Footer,
-  Flex,
-  Button,
-  Metric,
-  CategoryBar,
-  ColGrid,
-  Badge,
-  Title,
-} from "@tremor/react";
+import { Card, Text } from "@tremor/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import ArrowNarrowLeftIcon from "../assets/arrow-narrow-left-icon";
+import Header from "../component/header";
+import GandalfContext from "../context/gandalf.context";
 
-const Home: React.FC = () => {
+const ErrorPage: React.FC = () => {
+  console.log("rendering error page");
+  const data = React.useContext(GandalfContext);
   const navigate = useNavigate();
+  if (data.length) {
+    navigate("/");
+    return null;
+  }
   return (
     <>
-      <Card maxWidth="max-w-xl" shadow>
-        <Flex justifyContent="justify-start">
-          <Title truncate>Dexter - No data</Title>
-        </Flex>
-      </Card>
+      <Header title="No data" />
       <Card maxWidth="max-w-xl" shadow marginTop="mt-4">
         <Text>
           Lancez l'extension sur votre page de compétences gandalf pour
@@ -33,4 +25,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default ErrorPage;

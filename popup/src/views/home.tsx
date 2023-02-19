@@ -21,10 +21,12 @@ import {
 } from "../services/gandalf.service";
 import Github from "../assets/github";
 import { useNavigate } from "react-router-dom";
+import Header from "../component/header";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const data = React.useContext(GandalfContext);
+  console.log("home", data);
   const progression = React.useMemo(
     () => getCompetenciesStatusCounts(data),
     [data]
@@ -42,9 +44,7 @@ const Home: React.FC = () => {
   const successRate = (progression.success * 100) / progression.total;
   return (
     <>
-      <Card maxWidth="max-w-xl" shadow>
-        <Title truncate>Dexter - Competencies Viewer</Title>
-      </Card>
+      <Header title="Competencies Viewer" />
       <Card maxWidth="max-w-xl" shadow marginTop="mt-4">
         <Card shadow={false}>
           <Flex>

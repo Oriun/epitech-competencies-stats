@@ -10,6 +10,7 @@ import { Router, Routes, Route } from "react-router-dom";
 
 const App = () => {
   const [location, navigator] = useRouter("/popup/dist");
+  if (!location) return null;
 
   return (
     <Router basename="/popup/dist" location={location} navigator={navigator}>
