@@ -1,0 +1,42 @@
+name: Release Artifacts
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Nodejs 19.4
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19.4
+      - name: Go to popup directory
+        run: cd popup
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7.27.1
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+      - name: Build popup
+        run: pnpm run build
+      - name: Go root directory
+        run: cd ..
+      - name: Zip extension
+        run: zip -r extension.zip popup/dist/ manifest.json images/ LICENSE README.md
+      - name: Upload extension
+        uses: actions/upload-artifact@v2
+        with:
+          name: epitech-competencies-stats
+          path: epitech-competencies-stats.zip
+      - name: Add release assets
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: epitech-competencies-stats.zip
+          asset_name: epitech-competencies-stats.zip
+          tag: ${{ github.ref }}
+          overwrite: true
