@@ -11,9 +11,17 @@ Je fais volontairement l'impasse sur la publication de l'extension sur le Chrome
 ### Local
 
 1. Clonez le repo ou téléchargez et décompressez la dernière release.
-2. Ouvrez Chrome et allez à `chrome://extensions/`.
-3. Activez le mode `Développeur` (case à cocher dans le coin supérieur droit).
-4. Cliquez sur `Charger l'extension non empaquetée...` et sélectionnez le dossier cloné/téléchargé.
+2. Si vous avez cloné le repo :
+
+```console
+cd popup
+pnpm install
+pnpm build
+```
+
+3. Ouvrez Chrome et allez à `chrome://extensions/`.
+4. Activez le mode `Développeur` (case à cocher dans le coin supérieur droit).
+5. Cliquez sur `Charger l'extension non empaquetée...` et sélectionnez le dossier cloné/téléchargé.
 
 ## Utilisation
 
