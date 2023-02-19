@@ -3,6 +3,7 @@ name: Release Artifacts
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -13,8 +14,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 19.4
-      - name: Go to popup directory
-        run: cd popup
       - uses: pnpm/action-setup@v2
         with:
           version: 7.27.1
@@ -22,17 +21,18 @@ jobs:
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
       - name: Build popup
-        run: pnpm run build
-      - name: Go root directory
-        run: cd ..
+        working-directory: ./popup
+        run: pnpm build
       - name: Zip extension
-        run: zip -r extension.zip popup/dist/ manifest.json images/ LICENSE README.md
+        working-directory: ./
+        run: zip -r epitech-competencies-stats.zip popup/dist/ manifest.json images/ LICENSE README.md
       - name: Upload extension
         uses: actions/upload-artifact@v2
         with:
           name: epitech-competencies-stats
           path: epitech-competencies-stats.zip
       - name: Add release assets
+        if: github.event_name == 'release'
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
