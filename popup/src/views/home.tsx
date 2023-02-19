@@ -80,12 +80,13 @@ const Home: React.FC = () => {
           <Button
             variant="light"
             size="sm"
-            text="Voir mes compétences"
             icon={ArrowNarrowRightIcon}
             iconPosition="right"
             onClick={() => navigate("/competencies")}
             marginTop="mt-6"
-          />
+          >
+            Voir mes compétences&nbsp;&nbsp;
+          </Button>
         </Card>
         <ColGrid numCols={2} gapX="gap-x-4" gapY="gap-y-4" marginTop="mt-4">
           <Card shadow={false}>

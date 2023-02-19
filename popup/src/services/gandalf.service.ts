@@ -119,6 +119,16 @@ export function getCompetencies(data: GandalfData) {
   });
 }
 
+export function getSingleCompetence(data: GandalfData, code: string) {
+  return data.flatMap((item) => {
+    return item.children.flatMap((child) => {
+      return child.children.flatMap((grandChild) => {
+        return grandChild.code === code ? [grandChild] : [];
+      });
+    });
+  })[0];
+}
+
 export const ColorForMark: Record<
   GandalfMark,
   | "slate"
@@ -144,7 +154,7 @@ export const ColorForMark: Record<
   | "pink"
   | "rose"
 > = {
-  [GandalfMark.above]: "amber",
+  [GandalfMark.above]: "cyan",
   [GandalfMark.success]: "emerald",
   [GandalfMark.below]: "orange",
   [GandalfMark.failed]: "red",
